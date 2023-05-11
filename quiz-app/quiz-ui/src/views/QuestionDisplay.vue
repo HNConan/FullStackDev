@@ -1,11 +1,10 @@
 <template>
   <h1>Question Displayer</h1>
-  
 </template>
 
 
+<img v-if="question.image" :src="python" />
 
-<img v-if="question.image" :src="question.image" />
 
 props: {
   question: {
