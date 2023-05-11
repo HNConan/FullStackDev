@@ -34,7 +34,7 @@ def SelectElement():
     resultat = cur.fetchone()
     # Vérifier si un résultat a été retourné
     if resultat is not None:
-    Question object = (resultat[0], resultat[1])
+     object = Question(resultat[0], resultat[1])
     # Faire quelque chose avec l'objet...
     print(object.position, object.questionText)
     # Fermer le curseur et la connexion à la base de données
