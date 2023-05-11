@@ -242,6 +242,8 @@ Temporary Items
 # .idea/modules
 # *.iml
 # *.ipr
+.db
+.db-journal
 
 # CMake
 cmake-build-*/
