@@ -3,6 +3,7 @@ from flask import Flask, request
 from flask_cors import CORS
 from jwt_utils import build_token
 import json
+from linkBD import insertToBDD
 
 def to_json(data):
     json_data = json.dumps(data)
@@ -31,6 +32,7 @@ def PostLoginInfo():
 
 @app.route('/questions', methods=['POST'])
 def PostQuestion():
+	return "Response insert",insertToBDD()
 	#Récupérer le token envoyé en paramètre
 	request.headers.get('Authorization')
 	#récupèrer un l'objet json envoyé dans le body de la requète
