@@ -28,6 +28,15 @@ def PostLoginInfo():
 
 		return json_data, 200
 	return 'Unauthorized', 401
-	
+
+@app.route('/questions', methods=['POST'])
+def PostQuestion():
+	#Récupérer le token envoyé en paramètre
+	request.headers.get('Authorization')
+	#récupèrer un l'objet json envoyé dans le body de la requète
+	request.get_json()
+	return {"size": 0, "scores": []}, 200
+
+
 if __name__ == "__main__":
     app.run()
