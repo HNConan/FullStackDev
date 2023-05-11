@@ -1,13 +1,18 @@
 class Question:
-    def __init__(self, id, position, title, questionText):
+    def __init__(self, id, position, title, text, image, possibleAnswers):
         self._id = id
         self._position = position
         self._title = title
-        self._questionText = questionText
-    def __init__(self, position, title, questionText):
+        self._text = text
+        self._image = image
+        self._possibleAnswers = possibleAnswers
+
+    def __init__(self, position, title, text, image, possibleAnswers):
         self._position = position
         self._title = title
-        self._questionText = questionText
+        self._text = text
+        self._image = image
+        self._possibleAnswers = possibleAnswers
     
     # Getters
     def getId(self):
@@ -19,8 +24,14 @@ class Question:
     def getTitle(self):
         return self._title
     
-    def getQuestionText(self):
-        return self._questionText
+    def gettext(self):
+        return self._text
+    
+    def getImage(self):
+        return self._image
+    
+    def getPossibleAnswers(self):
+        return self._possibleAnswers
     
     # Setters
     def setId(self, id):
@@ -32,8 +43,14 @@ class Question:
     def setTitle(self, title):
         self._title = title
         
-    def setQuestionText(self, questionText):
-        self._questionText = questionText
+    def settext(self, text):
+        self._text = text
+        
+    def setImage(self, image):
+        self._image = image
+        
+    def setPossibleAnswers(self, possibleAnswers):
+        self._possibleAnswers = possibleAnswers
     
     # Autres méthodes
     def __str__(self):
