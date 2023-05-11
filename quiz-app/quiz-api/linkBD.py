@@ -24,4 +24,25 @@ def insertQuestionToBDD():
 
 
 
+def SelectElement():
+    conn = sqlite3.connect('bdd.db')
+    # Créer un curseur pour exécuter des requêtes
+    cur = conn.cursor()
+    # Exécuter la requête SQL SELECT
+    cur.execute("SELECT position, questionText FROM question")
+    # Récupérer une seule ligne de résultats
+    resultat = cur.fetchone()
+    # Vérifier si un résultat a été retourné
+    if resultat is not None:
+    Question object = (resultat[0], resultat[1])
+    # Faire quelque chose avec l'objet...
+    print(object.position, object.questionText)
+    # Fermer le curseur et la connexion à la base de données
+    cur.close()
+    conn.close()
+
+
+
+
+
 
