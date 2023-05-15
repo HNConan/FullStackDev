@@ -3,6 +3,7 @@
   <h1>NewQuizz page</h1>
   <p class="text-start">Saisissez votre nom</p>
   <button type="button" class="btn btn-primary" @click="launchNewQuiz">Go</button>
+  
   <div class="input-group mb-3">
     <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"
       v-model="username">
@@ -20,10 +21,12 @@ export default {
 
   methods: {
     launchNewQuiz() {
+
       console.log("Launch new quiz with", this.username);
       participationStorageService.savePlayerName(this.username);
       const playerName = participationStorageService.getPlayerName();
-      this.$router.push('/questions');
+      this.$router.push('/QuestionDisplay');
+
     }
   }
 
