@@ -4,7 +4,7 @@ from flask_cors import CORS
 from jwt_utils import build_token, decode_token
 import json
 from linkBD import *
-from Question import Question
+from appClasses import Question
 
 def to_json(data):
     json_data = json.dumps(data)
@@ -31,6 +31,8 @@ def PostLoginInfo():
 		return json_data, 200
 	return 'Unauthorized', 401
 
+
+
 @app.route('/questions', methods=['POST'])
 def PostQuestion():
 	try:
@@ -38,17 +40,28 @@ def PostQuestion():
 	except:
 		return 500
 	question = request.get_json()
-	responseInsert = insertQuestionToBDD(question)
-	if(responseInsert >=0):
-		my_dict = {"id":responseInsert}
+	responseInsertQuestion = insertQuestionToBDD(question)
+	responseInsertAnswer = insertPossibleAnswersToBDD(responseInsertQuestion.getId(), question['possibleAnswers'])
+	responseInsertQuestion.setPossibleAnswers(responseInsertAnswer)
+	if isinstance(responseInsertQuestion,Question):
+		my_dict = {"id":responseInsertQuestion.getId()}
 		jsondata = to_json(my_dict) 
 	return jsondata, 200
+
+
 
 @app.route('/questions', methods=['GET'])
 def GetQuestionsInfo():
 	position = request.args.get('position')
-	responseSelect = getColumnsFromTableById("question", ['id','position', 'title', 'text', 'image', 'possibleAnswer1', 'possibleAnswer2', 'possibleAnswer3', 'possibleAnswer4'], position)
-	return responseSelect, 200
+	responseSelectQuestion = getColumnsFromTableByColumn("question", ['id','position', 'title', 'text', 'image'], "position", position)
+	responseSelectAnswers = getColumnsFromTableByColumn("poss_answers", ['id','id_quest', 'text', 'isCorrect'], "id_quest", responseSelectQuestion[0]['id'])
+	question = Question(responseSelectQuestion[0]['position'],responseSelectQuestion[0]['title'],responseSelectQuestion[0]['text'],responseSelectQuestion[0]['image'])
+	question.setId(responseSelectQuestion[0]['id']) 
+	posAns = createPossAnswers(responseSelectAnswers)
+	question.setPossibleAnswers(posAns)
+	for i in posAns:
+		print(i)
+	return str(question), 200
 
 
 if __name__ == "__main__":
