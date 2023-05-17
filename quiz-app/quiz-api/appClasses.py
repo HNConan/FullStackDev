@@ -61,10 +61,11 @@ class Question:
         print(str(self))
 
 class PossibleAnswer:
-    def __init__(self, id_question, text, isCorrect):
+    def __init__(self, id_question, text, isCorrect, position):
         self._id_question = id_question
         self._text = text
         self._isCorrect = isCorrect
+        self._position = position
     
     # Getters
     def getId(self):
@@ -78,6 +79,9 @@ class PossibleAnswer:
 
     def getIsCorrect(self):
         return self._isCorrect
+    
+    def getPosition(self):
+        return self._position
 
     # Setters
     def setId(self, id):
@@ -92,6 +96,10 @@ class PossibleAnswer:
     def setIsCorrect(self, isCorrect):
         self._isCorrect = isCorrect
 
+    def setPosition(self, position):
+        self._position = position
+
+
     # Autres méthodes
     def __str__(self):
         return str({
@@ -103,12 +111,17 @@ class PossibleAnswer:
     def printPossibleAnswer(self):
         print(str(self))
 
-def createPossAnswers(answers):
+def createPossAnswers(answers, id_quest=""):
     posAns = []
+    if isinstance(id_quest, int):
+        id_question = id_quest
+    else:
+        id_question =  int(ans['id'])
+    index = 0
     for ans in answers:
-        objAns = PossibleAnswer(int(ans['id_quest']), ans['text'], ConvertBoolIntIsCorrect(ans['isCorrect']))
-        objAns.setId(int(ans['id']))
+        objAns = PossibleAnswer(id_question, ans['text'], ConvertBoolIntIsCorrect(ans['isCorrect']), index)
         posAns.append(objAns)
+        index += 1
     return posAns
 
 def ConvertBoolIntIsCorrect(val):

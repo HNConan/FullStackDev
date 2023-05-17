@@ -20,6 +20,11 @@ def hello_world():
 def GetQuizInfo():
 	return {"size": 0, "scores": []}, 200
 
+@app.route('/rebuild-db', methods=['POST'])
+def rebuildDB():
+	return 'Ok', 200
+
+
 @app.route('/login', methods=['POST'])
 def PostLoginInfo():
 	payload = request.get_json()
@@ -38,8 +43,11 @@ def PostQuestion():
 	try:
 		decode_token(request.headers.get('Authorization').split(" ")[1])
 	except:
-		return 500
+		print("Unauthorized")
+		return "",401
+	
 	question = request.get_json()
+	
 	responseInsertQuestion = insertQuestionToBDD(question)
 	responseInsertAnswer = insertPossibleAnswersToBDD(responseInsertQuestion.getId(), question['possibleAnswers'])
 	responseInsertQuestion.setPossibleAnswers(responseInsertAnswer)
@@ -49,19 +57,77 @@ def PostQuestion():
 	return jsondata, 200
 
 
+@app.route('/questions/<int:question_id>', methods=['DELETE'])
+def DeleteQuestion(question_id):
+	try:
+		decode_token(request.headers.get('Authorization').split(" ")[1])
+	except:
+		print("Unauthorized")
+		return "",401
+	deleteQuestion(question_id)
+	return "",204
+
+@app.route('/questions/all', methods=['DELETE'])
+def DeleteAllQuestion():
+	try:
+		decode_token(request.headers.get('Authorization').split(" ")[1])
+	except:
+		print("Unauthorized")
+		return "",401
+	deleteAllQuestion()
+	return "",204
+
+@app.route('/participations/all', methods=['DELETE'])
+def DeleteAllParticipants():
+	try:
+		decode_token(request.headers.get('Authorization').split(" ")[1])
+	except:
+		print("Unauthorized")
+		return "",401
+	deleteAllParticipants()
+	return "",204
+		
+
+@app.route('/questions/<int:question_id>', methods=['GET'])
+def GetQuestionsInfoById(question_id):
+	responseSelectQuestion = getColumnsFromTableByColumn("question", ['id','position', 'title', 'text', 'image'], "position", question_id)
+	responseSelectAnswers = getColumnsFromTableByColumn("poss_answers", ['id','id_quest', 'text', 'isCorrect', 'position'], "id_quest", responseSelectQuestion[0]['id'])
+	question = Question(responseSelectQuestion[0]['position'],responseSelectQuestion[0]['title'],responseSelectQuestion[0]['text'],responseSelectQuestion[0]['image'])
+	question.setId(responseSelectQuestion[0]['id']) 
+	posAns = createPossAnswers(responseSelectAnswers, id_quest=responseSelectQuestion[0]['id'])
+	question.setPossibleAnswers(posAns)
+	return str(question), 200
+
+
 
 @app.route('/questions', methods=['GET'])
 def GetQuestionsInfo():
 	position = request.args.get('position')
 	responseSelectQuestion = getColumnsFromTableByColumn("question", ['id','position', 'title', 'text', 'image'], "position", position)
-	responseSelectAnswers = getColumnsFromTableByColumn("poss_answers", ['id','id_quest', 'text', 'isCorrect'], "id_quest", responseSelectQuestion[0]['id'])
+	responseSelectAnswers = getColumnsFromTableByColumn("poss_answers", ['id','id_quest', 'text', 'isCorrect', 'position'], "id_quest", responseSelectQuestion[0]['id'])
 	question = Question(responseSelectQuestion[0]['position'],responseSelectQuestion[0]['title'],responseSelectQuestion[0]['text'],responseSelectQuestion[0]['image'])
 	question.setId(responseSelectQuestion[0]['id']) 
-	posAns = createPossAnswers(responseSelectAnswers)
+	posAns = createPossAnswers(responseSelectAnswers,id_quest=responseSelectQuestion[0]['id'])
 	question.setPossibleAnswers(posAns)
-	for i in posAns:
-		print(i)
 	return str(question), 200
+
+@app.route('/questions/<int:question_id>', methods=['PUT'])
+def UpdateQuestion(question_id):
+	try:
+		decode_token(request.headers.get('Authorization').split(" ")[1])
+	except:
+		print("Unauthorized")
+		return "",401
+	#Get and create new Question (the one that will Replace)
+	newQuestionJSON = request.get_json()
+	updatedQuestion = Question(newQuestionJSON['position'],newQuestionJSON['title'],newQuestionJSON['text'],newQuestionJSON['image'])
+	newPossibleAnswers = createPossAnswers(newQuestionJSON['possibleAnswers'], question_id)
+	updatedQuestion.setPossibleAnswers(newPossibleAnswers)
+	updatedQuestion.setId(question_id)
+	
+	#Update the question
+	updateQuestion(updatedQuestion)
+	return "",204
 
 
 if __name__ == "__main__":
