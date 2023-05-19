@@ -64,8 +64,14 @@ def DeleteQuestion(question_id):
 	except:
 		print("Unauthorized")
 		return "",401
-	deleteQuestion(question_id)
-	return "",204
+	try:
+		response = getColumnsFromTableByColumn("question", ['id','position', 'title', 'text', 'image'], "id", question_id)
+		response[0]
+		deleteQuestion(question_id)
+		return "",204
+	except:
+		return "Error occured", 404
+
 
 @app.route('/questions/all', methods=['DELETE'])
 def DeleteAllQuestion():
@@ -90,27 +96,31 @@ def DeleteAllParticipants():
 
 @app.route('/questions/<int:question_id>', methods=['GET'])
 def GetQuestionsInfoById(question_id):
-	responseSelectQuestion = getColumnsFromTableByColumn("question", ['id','position', 'title', 'text', 'image'], "position", question_id)
-	responseSelectAnswers = getColumnsFromTableByColumn("poss_answers", ['id','id_quest', 'text', 'isCorrect', 'position'], "id_quest", responseSelectQuestion[0]['id'])
-	question = Question(responseSelectQuestion[0]['position'],responseSelectQuestion[0]['title'],responseSelectQuestion[0]['text'],responseSelectQuestion[0]['image'])
-	question.setId(responseSelectQuestion[0]['id']) 
-	posAns = createPossAnswers(responseSelectAnswers, id_quest=responseSelectQuestion[0]['id'])
-	question.setPossibleAnswers(posAns)
-	return str(question), 200
-
+	try:
+		responseSelectQuestion = getColumnsFromTableByColumn("question", ['id','position', 'title', 'text', 'image'], "id", question_id)
+		responseSelectAnswers = getColumnsFromTableByColumn("poss_answers", ['id','id_quest', 'text', 'isCorrect', 'position'], "id_quest", responseSelectQuestion[0]['id'])
+		question = Question(responseSelectQuestion[0]['position'],responseSelectQuestion[0]['title'],responseSelectQuestion[0]['text'],responseSelectQuestion[0]['image'])
+		question.setId(responseSelectQuestion[0]['id']) 
+		posAns = createPossAnswers(responseSelectAnswers, id_quest=responseSelectQuestion[0]['id'])
+		question.setPossibleAnswers(posAns)
+		return str(question), 200
+	except:
+		return "Error occured", 404
 
 
 @app.route('/questions', methods=['GET'])
 def GetQuestionsInfo():
 	position = request.args.get('position')
-	responseSelectQuestion = getColumnsFromTableByColumn("question", ['id','position', 'title', 'text', 'image'], "position", position)
-	responseSelectAnswers = getColumnsFromTableByColumn("poss_answers", ['id','id_quest', 'text', 'isCorrect', 'position'], "id_quest", responseSelectQuestion[0]['id'])
-	question = Question(responseSelectQuestion[0]['position'],responseSelectQuestion[0]['title'],responseSelectQuestion[0]['text'],responseSelectQuestion[0]['image'])
-	question.setId(responseSelectQuestion[0]['id']) 
-	posAns = createPossAnswers(responseSelectAnswers,id_quest=responseSelectQuestion[0]['id'])
-	question.setPossibleAnswers(posAns)
-	return str(question), 200
-
+	try:
+		responseSelectQuestion = getColumnsFromTableByColumn("question", ['id','position', 'title', 'text', 'image'], "position", position)
+		responseSelectAnswers = getColumnsFromTableByColumn("poss_answers", ['id','id_quest', 'text', 'isCorrect', 'position'], "id_quest", responseSelectQuestion[0]['id'])
+		question = Question(responseSelectQuestion[0]['position'],responseSelectQuestion[0]['title'],responseSelectQuestion[0]['text'],responseSelectQuestion[0]['image'])
+		question.setId(responseSelectQuestion[0]['id']) 
+		posAns = createPossAnswers(responseSelectAnswers,id_quest=responseSelectQuestion[0]['id'])
+		question.setPossibleAnswers(posAns)
+		return str(question), 200
+	except:
+		return "Error occured", 404
 @app.route('/questions/<int:question_id>', methods=['PUT'])
 def UpdateQuestion(question_id):
 	try:
@@ -119,15 +129,18 @@ def UpdateQuestion(question_id):
 		print("Unauthorized")
 		return "",401
 	#Get and create new Question (the one that will Replace)
-	newQuestionJSON = request.get_json()
-	updatedQuestion = Question(newQuestionJSON['position'],newQuestionJSON['title'],newQuestionJSON['text'],newQuestionJSON['image'])
-	newPossibleAnswers = createPossAnswers(newQuestionJSON['possibleAnswers'], question_id)
-	updatedQuestion.setPossibleAnswers(newPossibleAnswers)
-	updatedQuestion.setId(question_id)
-	
-	#Update the question
-	updateQuestion(updatedQuestion)
-	return "",204
+	try:
+		response = getColumnsFromTableByColumn("question", ['id','position', 'title', 'text', 'image'], "id", question_id)
+		response[0]
+		newQuestionJSON = request.get_json()
+		updatedQuestion = Question(newQuestionJSON['position'],newQuestionJSON['title'],newQuestionJSON['text'],newQuestionJSON['image'])
+		newPossibleAnswers = createPossAnswers(newQuestionJSON['possibleAnswers'], question_id)
+		updatedQuestion.setPossibleAnswers(newPossibleAnswers)
+		updatedQuestion.setId(question_id)
+		updateQuestion(updatedQuestion,newQuestionJSON['possibleAnswers'])
+		return "",204
+	except:
+		return "Error occured", 404
 
 
 if __name__ == "__main__":

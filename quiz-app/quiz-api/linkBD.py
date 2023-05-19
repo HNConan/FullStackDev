@@ -62,35 +62,24 @@ def getColumnsFromTableByColumn(table_name, columns, nameOfColumn, valOfColumn):
     return [dict(zip(columns, row)) for row in results]  # Retourne une liste de dictionnaires avec les colonnes demandées
 
 
-def updateQuestion(objQuestion):
+def updateQuestion(objQuestion, possAnswersJson):
     conn = sqlite3.connect('bdd.db')
     cur = conn.cursor()
     # Générer la requête SQL UPDATE avec les nouvelles valeurs de l'objet
     requete = "UPDATE question SET position = ?, title = ?, text = ?, image = ? WHERE id = ?"
     # Exécuter la requête SQL
     cur.execute(requete, (objQuestion.getPosition(), objQuestion.getTitle(), objQuestion.gettext(), objQuestion.getImage(), objQuestion.getId()))
-    possAnswers = objQuestion.getPossibleAnswers()
     # Valider la transaction
     conn.commit()
     # Fermer le curseur et la connexion à la base de données
     cur.close()
     conn.close()
-    for objPosAnswer in possAnswers:
-        updatePossibleAnswer(objPosAnswer)
+    updatePossiblesAnswers(objQuestion.getId(),possAnswersJson)
 
 
-def updatePossibleAnswer(objPosAnswer):
-    conn = sqlite3.connect('bdd.db')
-    cur = conn.cursor()
-    # Générer la requête SQL UPDATE avec les nouvelles valeurs de l'objet
-    requete = "UPDATE poss_answers SET id_quest = ?, text = ?, isCorrect = ? WHERE position = ?"
-    # Exécuter la requête SQL
-    cur.execute(requete, (objPosAnswer.getIdQuestion(), objPosAnswer.getText(), ConvertBoolIntIsCorrect(objPosAnswer.getIsCorrect()), objPosAnswer.getPosition()))
-    # Valider la transaction
-    conn.commit()
-    # Fermer le curseur et la connexion à la base de données
-    cur.close()
-    conn.close()
+def updatePossiblesAnswers(id_quest ,objPosAnswer):
+    deleteAllAnswersOfQuest(id_quest)
+    insertPossibleAnswersToBDD(id_quest, objPosAnswer)
 
 def deleteQuestion(idQuestion):
     conn = sqlite3.connect('bdd.db')
