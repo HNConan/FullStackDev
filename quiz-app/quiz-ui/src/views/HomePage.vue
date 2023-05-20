@@ -19,9 +19,17 @@ export default {
     };
   },
   async created() {
-    registeredScores = quizApiService.getQuestion(),
-      console.log("Composant Home page 'created'");
-  }
+    console.log("Test get all scores");
+    quizApiService.getQuizInfo()
+      .then((response) => {
+        this.registeredScores = response.data;
+        this.registeredScores = Object.values(this.registeredScores['scores'])
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    console.log("Composant Home page 'created'");
+  },
 
 };
 </script>

@@ -256,7 +256,6 @@ def getAllParticipants():
     query = "SELECT * FROM participants"
     cur.execute(query)
     results = cur.fetchall()
-    print(results)
     cur.close()
     conn.close()
     if results is None:
@@ -272,7 +271,6 @@ def getAllParticipants():
 
 def getGoodAnswerForQuestion(positionQuest):
     id_quest = getColumnsFromTableByColumn("question", ["id"], "position", positionQuest)
-    print(id_quest)
     conn = sqlite3.connect('bdd.db')
     cur = conn.cursor()
     query = f"SELECT position FROM poss_answers WHERE id_quest=? AND isCorrect = 1"
