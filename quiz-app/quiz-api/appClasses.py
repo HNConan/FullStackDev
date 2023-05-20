@@ -1,5 +1,4 @@
 import json
-
 class Question:
     def __init__(self, position, title, text, image):
         self._position = position
@@ -111,6 +110,69 @@ class PossibleAnswer:
     def printPossibleAnswer(self):
         print(str(self))
 
+
+class Participation:
+    def __init__(self, pseudo, answers=None, score=0):
+        self._pseudo = pseudo
+        self._answers = answers or []
+        self._score = score
+
+    # Getters
+    def get_id(self):
+        return self._id
+
+    def get_pseudo(self):
+        return self._pseudo
+
+    def get_answers(self):
+        return self._answers
+
+    def get_score(self):
+        return self._score
+
+    # Setters
+    def set_id(self, id):
+        self._id = id
+
+    def set_pseudo(self, pseudo):
+        self._pseudo = pseudo
+
+    def set_answers(self, answers):
+        self._answers = answers
+
+    def set_score(self, score):
+        self._score = score
+
+    # Autres méthodes utiles
+    def add_answer(self, answer):
+        self._answers.append(answer)
+
+    def calculate_score(self, tabOfGoodAns):
+        count = 0
+        for i in range(len(tabOfGoodAns)):
+            if self._answers[i] == tabOfGoodAns[i]:
+                count += 1
+        self._score = count
+        
+
+    def to_dict(self):
+        return {
+            "id": self._id,
+            "playerName": self._pseudo,
+            "answers": [answer for answer in self._answers],
+            "score": self._score
+        }
+
+    # Autres méthodes
+    def __str__(self):
+        return json.dumps({
+            "id": self._id,
+            "playerName": self._pseudo,
+            "answers": [answer for answer in self._answers],
+            "score": self._score
+        }, ensure_ascii=False)
+
+
 def createPossAnswers(answers, id_quest=""):
     posAns = []
     if isinstance(id_quest, int):
@@ -133,4 +195,4 @@ def ConvertBoolIntIsCorrect(val):
         return True
     if(int(val) == 0):
         return False
-    
+
