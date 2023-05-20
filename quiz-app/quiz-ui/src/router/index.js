@@ -24,8 +24,8 @@ const router = createRouter({
       component: () => import('../views/NewQuizPage.vue')
     },
     {
-      path: '/questions',
-      name: 'questions',
+      path: '/QuestionDisplay',
+      name: 'quesQuestionDisplaytions',
       component: () => import('../views/QuestionDisplay.vue')
     }
   ]

@@ -1,37 +1,32 @@
 
-<template>
-  <h1>Question Displayer</h1>
-  <img v-if="question.image" :src="question.image" />
-  <a @click="$emit('answer-selected', 2)">La réponse D</a>
+<template >
+  <div> 
+    <h1> QuestionDisplay</h1>
+    <p>Question Title : {{ question.QuestionTitle }}</p>
+    <currentQuestion /> 
+
+  </div>
 
 </template>
+
 <script> 
 export default
 {
-  props: {
-  question: {
-    type: Object,
-  }
-},
-emits: {
-    // No validation
-    click: null,
+  name: 'QuestionDisplay',
+    emits: ["answer-selected"],
 
-    // Validate submit event
-    submit: ({ email, password }) => {
-      if (email && password) {
-        return true
-      } else {
-        return false
-      }
-    }
-  },
-  methods: {
-    emitFucntion()
-    {
-      this.$emit('answer-selected', 2);    
-      
-  }
+    props: {
+        question: {
+            type: Object,
+         
+        }
+    },
+    methods: {
+        selectAnswer(possibleAnswerIndex) {
+            this.$emit('answer-selected', possibleAnswerIndex + 1);
+        }
+    },
 }
-}
+
+
 </script>
