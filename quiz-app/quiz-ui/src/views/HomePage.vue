@@ -19,7 +19,7 @@ export default {
     };
   },
   async created() {
-    registeredScores = QuizApiService.getQuestion(),
+    registeredScores = quizApiService.getQuestion(),
       console.log("Composant Home page 'created'");
   }
 
