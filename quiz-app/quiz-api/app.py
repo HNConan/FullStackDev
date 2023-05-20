@@ -4,7 +4,7 @@ from flask_cors import CORS
 from jwt_utils import build_token, decode_token
 import json
 from linkBD import *
-from Question import Question
+from appClasses import Question
 
 def to_json(data):
     json_data = json.dumps(data)
@@ -20,6 +20,11 @@ def hello_world():
 def GetQuizInfo():
 	return {"size": 0, "scores": []}, 200
 
+@app.route('/rebuild-db', methods=['POST'])
+def rebuildDB():
+	return 'Ok', 200
+
+
 @app.route('/login', methods=['POST'])
 def PostLoginInfo():
 	payload = request.get_json()
@@ -31,24 +36,111 @@ def PostLoginInfo():
 		return json_data, 200
 	return 'Unauthorized', 401
 
+
+
 @app.route('/questions', methods=['POST'])
 def PostQuestion():
 	try:
 		decode_token(request.headers.get('Authorization').split(" ")[1])
 	except:
-		return 500
+		print("Unauthorized")
+		return "",401
+	
 	question = request.get_json()
-	responseInsert = insertQuestionToBDD(question)
-	if(responseInsert >=0):
-		my_dict = {"id":responseInsert}
+	
+	responseInsertQuestion = insertQuestionToBDD(question)
+	responseInsertAnswer = insertPossibleAnswersToBDD(responseInsertQuestion.getId(), question['possibleAnswers'])
+	responseInsertQuestion.setPossibleAnswers(responseInsertAnswer)
+	if isinstance(responseInsertQuestion,Question):
+		my_dict = {"id":responseInsertQuestion.getId()}
 		jsondata = to_json(my_dict) 
 	return jsondata, 200
+
+
+@app.route('/questions/<int:question_id>', methods=['DELETE'])
+def DeleteQuestion(question_id):
+	try:
+		decode_token(request.headers.get('Authorization').split(" ")[1])
+	except:
+		print("Unauthorized")
+		return "",401
+	try:
+		response = getColumnsFromTableByColumn("question", ['id','position', 'title', 'text', 'image'], "id", question_id)
+		response[0]
+		deleteQuestion(question_id)
+		return "",204
+	except:
+		return "Error occured", 404
+
+
+@app.route('/questions/all', methods=['DELETE'])
+def DeleteAllQuestion():
+	try:
+		decode_token(request.headers.get('Authorization').split(" ")[1])
+	except:
+		print("Unauthorized")
+		return "",401
+	deleteAllQuestion()
+	return "",204
+
+@app.route('/participations/all', methods=['DELETE'])
+def DeleteAllParticipants():
+	try:
+		decode_token(request.headers.get('Authorization').split(" ")[1])
+	except:
+		print("Unauthorized")
+		return "",401
+	deleteAllParticipants()
+	return "",204
+		
+
+@app.route('/questions/<int:question_id>', methods=['GET'])
+def GetQuestionsInfoById(question_id):
+	try:
+		responseSelectQuestion = getColumnsFromTableByColumn("question", ['id','position', 'title', 'text', 'image'], "id", question_id)
+		responseSelectAnswers = getColumnsFromTableByColumn("poss_answers", ['id','id_quest', 'text', 'isCorrect', 'position'], "id_quest", responseSelectQuestion[0]['id'])
+		question = Question(responseSelectQuestion[0]['position'],responseSelectQuestion[0]['title'],responseSelectQuestion[0]['text'],responseSelectQuestion[0]['image'])
+		question.setId(responseSelectQuestion[0]['id']) 
+		posAns = createPossAnswers(responseSelectAnswers, id_quest=responseSelectQuestion[0]['id'])
+		question.setPossibleAnswers(posAns)
+		return str(question), 200
+	except:
+		return "Error occured", 404
+
 
 @app.route('/questions', methods=['GET'])
 def GetQuestionsInfo():
 	position = request.args.get('position')
-	responseSelect = getColumnsFromTableById("question", ['id','position', 'title', 'text', 'image', 'possibleAnswer1', 'possibleAnswer2', 'possibleAnswer3', 'possibleAnswer4'], position)
-	return responseSelect, 200
+	try:
+		responseSelectQuestion = getColumnsFromTableByColumn("question", ['id','position', 'title', 'text', 'image'], "position", position)
+		responseSelectAnswers = getColumnsFromTableByColumn("poss_answers", ['id','id_quest', 'text', 'isCorrect', 'position'], "id_quest", responseSelectQuestion[0]['id'])
+		question = Question(responseSelectQuestion[0]['position'],responseSelectQuestion[0]['title'],responseSelectQuestion[0]['text'],responseSelectQuestion[0]['image'])
+		question.setId(responseSelectQuestion[0]['id']) 
+		posAns = createPossAnswers(responseSelectAnswers,id_quest=responseSelectQuestion[0]['id'])
+		question.setPossibleAnswers(posAns)
+		return str(question), 200
+	except:
+		return "Error occured", 404
+@app.route('/questions/<int:question_id>', methods=['PUT'])
+def UpdateQuestion(question_id):
+	try:
+		decode_token(request.headers.get('Authorization').split(" ")[1])
+	except:
+		print("Unauthorized")
+		return "",401
+	#Get and create new Question (the one that will Replace)
+	try:
+		response = getColumnsFromTableByColumn("question", ['id','position', 'title', 'text', 'image'], "id", question_id)
+		response[0]
+		newQuestionJSON = request.get_json()
+		updatedQuestion = Question(newQuestionJSON['position'],newQuestionJSON['title'],newQuestionJSON['text'],newQuestionJSON['image'])
+		newPossibleAnswers = createPossAnswers(newQuestionJSON['possibleAnswers'], question_id)
+		updatedQuestion.setPossibleAnswers(newPossibleAnswers)
+		updatedQuestion.setId(question_id)
+		updateQuestion(updatedQuestion,newQuestionJSON['possibleAnswers'])
+		return "",204
+	except:
+		return "Error occured", 404
 
 
 if __name__ == "__main__":
