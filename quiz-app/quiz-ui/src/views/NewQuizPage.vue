@@ -1,15 +1,21 @@
-
 <template>
-  <h1>NewQuizz page</h1>
-  <p class="text-start">Saisissez votre nom</p>
-  <button type="button" class="btn btn-primary" @click="launchNewQuiz">Go</button>
-  
-  <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"
-      v-model="username">
-
+  <h1 class="header">Nouveau Quizz</h1>
+  <h3 class="text-center">Saisissez votre nom</h3>
+  <div class="d-flex flex-column align-items-center">
+    <div class="mb-3">
+      <button type="button" class="btn btn-primary" @click="launchNewQuiz">Go</button>
+    </div>
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"
+        v-model="username">
+    </div>
   </div>
 </template>
+
+
+
+
+
 <script>
 import participationStorageService from "@/services/ParticipationStorageService";
 

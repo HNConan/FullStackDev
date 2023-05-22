@@ -1,21 +1,39 @@
 <template>
+
   <div class="title">
     <h1 class="titleBox">Langage de Programmation Quizz</h1>
   </div>
-  
-  <div class ="scoreEntry" v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.date">
-    
-      {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
 
+<div class = "ScoreArray" > 
+      <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Player</th>
+      <th scope="col">Score</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr v-for="(scoreEntry, index) in registeredScores" v-bind:key="scoreEntry.date">
+        <th scope="row">{{ index + 1 }}</th>
+        <td>{{ scoreEntry.playerName }}</td>
+        <td>{{ scoreEntry.score }}</td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+                
+
+  <div class = "BeginQuizz">
+    <router-link class = "goToNewQuizz" to="/NewQuizPage"> Démarrer le quiz !</router-link>
   </div>
-  <router-link to="/NewQuizPage"> Démarrer le quiz !</router-link>
 </template>
 
 <style>
 .title {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content: top;
+  align-items: center;
   height: 50vh; /* Ajustez cette valeur selon vos besoins */
 }
 .titleBox
@@ -23,15 +41,34 @@
   text-align: left;
   white-space: nowrap;
 
+
 }
 .scoreEntry
 {
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: center;
   height: 25; /* Ajustez cette valeur selon vos besoins */
 
 }
+
+.BeginQuizz
+{
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 2rem; /* Ajustez selon vos besoins */
+}
+.goToNewQuizz
+{
+  text-align: center;
+
+}
+.dataTab
+{
+  display: flex;
+}
+
 </style>
 
 <script>
@@ -58,5 +95,6 @@ export default {
     console.log("Composant Home page 'created'");
   },
 
-};
+  }
+    
 </script>
