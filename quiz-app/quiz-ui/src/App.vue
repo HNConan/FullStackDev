@@ -4,20 +4,16 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header>
+  <div class="wrapper">
+    <HelloWorld msg="You did it!" />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/about">About</RouterLink>
+      <RouterLink to="/admin">Administration</RouterLink>
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/admin">Administration</RouterLink>
-
-      </nav>
-    </div>
-  </header>
-
+    </nav>
+  </div>
   <RouterView />
 </template>
 
@@ -27,16 +23,14 @@ header {
   max-height: 100vh;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+
 
 nav {
   width: 100%;
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;
+  display: bottom;
 }
 
 nav a.router-link-exact-active {
@@ -57,6 +51,11 @@ nav a:first-of-type {
   border: 0;
 }
 
+.wrapper {
+  place-items: bottom;
+
+}
+
 @media (min-width: 1024px) {
   header {
     display: flex;
@@ -66,19 +65,14 @@ nav a:first-of-type {
 
 
 
-  header .wrapper {
-    display: flex;
-    place-items: bottom;
-    flex-wrap: wrap;
-  }
+
 
   nav {
     text-align: bottom;
     margin-left: -1rem;
     font-size: 1rem;
-
+    display: bottom;
     padding: 1rem 0;
     margin-top: 1rem;
   }
-}
-</style>
+}</style>
