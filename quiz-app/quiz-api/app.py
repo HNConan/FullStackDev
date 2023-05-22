@@ -155,11 +155,6 @@ def DeleteAllParticipants():
 @app.route('/participations', methods=['POST'])
 def PostParticipants():
 	try:
-		decode_token(request.headers.get('Authorization').split(" ")[1])
-	except:
-		print("Unauthorized")
-		return "",401
-	try:
 		jsonInput = request.get_json()
 		number_of_answer = len(jsonInput['answers'])
 		if get_table_count("question") != number_of_answer:

@@ -24,9 +24,9 @@ const router = createRouter({
       component: () => import('../views/NewQuizPage.vue')
     },
     {
-      path: '/QuestionDisplay',
-      name: 'quesQuestionDisplaytions',
-      component: () => import('../views/QuestionDisplay.vue')
+      path: '/QuestionManager',
+      name: 'quesQuestionManagtions',
+      component: () => import('../views/QuestionManager.vue')
     }
   ]
 })

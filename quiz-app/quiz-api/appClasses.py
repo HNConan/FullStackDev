@@ -53,7 +53,7 @@ class Question:
             "title": self._title,
             "text": self._text,
             "image": self._image,
-            "possibleAnswers": [{'text':ans.getText(), 'isCorrect':ans.getIsCorrect()} for ans in self._possibleAnswers]
+            "possibleAnswers": [{'idQuest': ans.getIdQuestion(),'text':ans.getText(), 'isCorrect':ans.getIsCorrect(), 'position': ans.getPosition()} for ans in self._possibleAnswers]
         }, ensure_ascii=False)
     
     def printQuestion(self):
@@ -103,8 +103,10 @@ class PossibleAnswer:
     def __str__(self):
         return str({
             "id": self._id,
+            'idQuest': self._id_question,
             "text": self._text,
-            "isCorrect": self._isCorrect
+            "isCorrect": self._isCorrect,
+            "position": self._position
         })
 
     def printPossibleAnswer(self):

@@ -11,7 +11,7 @@
   </div>
 </template>
 <script>
-import participationStorageService from "../services/ParticipationStorageService";
+import participationStorageService from "@/services/ParticipationStorageService";
 
 let username = '';
 
@@ -25,7 +25,7 @@ export default {
       console.log("Launch new quiz with", this.username);
       participationStorageService.savePlayerName(this.username);
       const playerName = participationStorageService.getPlayerName();
-      this.$router.push('./QuestionDisplay');
+      this.$router.push('./QuestionManager');
 
     }
   }
