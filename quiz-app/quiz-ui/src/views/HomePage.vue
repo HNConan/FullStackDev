@@ -4,6 +4,7 @@
     <h1 class="titleBox">Langage de Programmation Quizz</h1>
   </div>
 
+<div class="container-fluid bg-image" ></div>
 <div class = "ScoreArray" > 
       <table class="table">
   <thead>
@@ -22,8 +23,10 @@
   </tbody>
 </table>
 
+
 </div>
-                
+
+          
 
   <div class = "BeginQuizz">
     <router-link class = "goToNewQuizz" to="/NewQuizPage"> Démarrer le quiz !</router-link>
@@ -69,6 +72,19 @@
   display: flex;
 }
 
+
+.bg-image {
+  
+  background-image: url("../assets/backgroundImage.jpeg"); /* Chemin d'accès relatif à partir du dossier "public" */
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
 </style>
 
 <script>
@@ -80,6 +96,7 @@ export default {
   data() {
     return {
       registeredScores,
+
     };
   },
   async created() {
@@ -93,7 +110,15 @@ export default {
         console.error(error);
       });
     console.log("Composant Home page 'created'");
-  },
+  
+  import('@/assets/backgroundImage.jpeg')
+      .then((image) => {
+        this.backgroundImage = image.default;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    },
 
   }
     
