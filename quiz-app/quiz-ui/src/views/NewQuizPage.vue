@@ -10,6 +10,8 @@
         v-model="username">
     </div>
   </div>
+  <div class="container-fluid bg-image" ></div>
+
 </template>
 
 
@@ -34,8 +36,17 @@ export default {
       this.$router.push('./QuestionManager');
 
     }
-  }
-
+  },
+  async created() {
+  
+  import('@/assets/backgroundImage.jpeg')
+      .then((image) => {
+        this.backgroundImage = image.default;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    },
 };
 </script>
 <style>
@@ -45,5 +56,18 @@ export default {
     display: flex;
     align-items: center;
   }
+  
+.bg-image {
+  
+  background-image: url("../assets/backgroundImage.jpeg"); /* Chemin d'accès relatif à partir du dossier "public" */
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
 }
 </style>

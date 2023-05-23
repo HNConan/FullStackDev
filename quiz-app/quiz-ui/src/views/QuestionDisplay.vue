@@ -29,5 +29,15 @@ export default {
       this.$emit('answer-selected', possibleAnswerIndex + 1);
     },
   },
+  async created() {
+  
+  import('@/assets/backgroundImage.jpeg')
+      .then((image) => {
+        this.backgroundImage = image.default;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    },
 };
 </script>

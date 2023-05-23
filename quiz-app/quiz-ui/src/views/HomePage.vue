@@ -5,6 +5,9 @@
   </div>
 
 <div class="container-fluid bg-image" ></div>
+<div class ="ArrayTitle">
+<h2 class = "titleA"> Top Player</h2>
+</div>
 <div class = "ScoreArray" > 
       <table class="table">
   <thead>
@@ -15,7 +18,7 @@
     </tr>
   </thead>
   <tbody>
-      <tr v-for="(scoreEntry, index) in registeredScores" v-bind:key="scoreEntry.date">
+      <tr v-for="(scoreEntry, index) in registeredScores"  v-bind:key="scoreEntry.date" v-show="index < 5">
         <th scope="row">{{ index + 1 }}</th>
         <td>{{ scoreEntry.playerName }}</td>
         <td>{{ scoreEntry.score }}</td>
@@ -43,6 +46,7 @@
 {
   text-align: left;
   white-space: nowrap;
+  color: black;
 
 
 }
@@ -70,6 +74,11 @@
 .dataTab
 {
   display: flex;
+}
+.titleA
+{
+  text-align: center;
+
 }
 
 

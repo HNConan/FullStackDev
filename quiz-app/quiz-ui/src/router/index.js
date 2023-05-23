@@ -33,6 +33,12 @@ const router = createRouter({
       path: '/QuestionManager',
       name: 'QuestionManager',
       component: () => import('../views/QuestionManager.vue')
+    },
+    {
+      path:'/Leaderboard',
+      name : 'Leaderboard',
+      component: () => import('../views/Leaderboard.vue')
+
     }
   ]
 })
