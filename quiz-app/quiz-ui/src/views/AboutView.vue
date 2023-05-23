@@ -1,7 +1,8 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h1>Projet FullStack ESIEE 2023</h1>
   </div>
+  <h4> Réalisé par COMPAGNON Paul, CONAN Hadrien,BERTHELIN Joe  </h4>
   <div class="container-fluid bg-image" ></div>
 
 </template>
@@ -9,9 +10,12 @@
 <style>
 @media (min-width: 1024px) {
   .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
+    justify-content: top;
+    align-items: center; 
+     display: center;
+     height: 100px;
+     text-align: center; 
+
   }
   
 .bg-image {

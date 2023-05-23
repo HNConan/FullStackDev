@@ -5,6 +5,8 @@
   </div>
 
 <div class="container-fluid bg-image" ></div>
+
+
 <div class ="ArrayTitle">
 <h2 class = "titleA"> Top Player</h2>
 </div>
@@ -34,13 +36,17 @@
   <div class = "BeginQuizz">
     <router-link class = "goToNewQuizz" to="/NewQuizPage"> Démarrer le quiz !</router-link>
   </div>
+
+
+
+
 </template>
 
 <style>
 .title {
   justify-content: top;
   align-items: center;
-  height: 50vh; /* Ajustez cette valeur selon vos besoins */
+  height: 100px; /* Ajustez cette valeur selon vos besoins */
 }
 .titleBox
 {
@@ -64,12 +70,12 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  padding-bottom: 2rem; /* Ajustez selon vos besoins */
 }
 .goToNewQuizz
 {
   text-align: center;
-
+  font-size: 30px;
+  color: black;
 }
 .dataTab
 {
@@ -79,6 +85,9 @@
 {
   text-align: center;
 
+}
+.titleBox, .dataTab ,.titleA,.scoreEntry{
+  color: black;
 }
 
 

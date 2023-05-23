@@ -35,11 +35,11 @@
   .title {
     justify-content: top;
     align-items: center;
-    height: 50vh; /* Ajustez cette valeur selon vos besoins */
+    height: 100px;
   }
   .titleBox
   {
-    text-align: left;
+    text-align: center;
     white-space: nowrap;
   
   
@@ -49,28 +49,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 25; /* Ajustez cette valeur selon vos besoins */
-  
+    height: 25; 
   }
   
-  .BeginQuizz
-  {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    padding-bottom: 2rem; /* Ajustez selon vos besoins */
-  }
-  .goToNewQuizz
-  {
-    text-align: center;
+ 
+ 
   
-  }
   .dataTab
   {
     display: flex;
   }
   
-  
+  .titleBox, .dataTab ,.titleA,.scoreEntry{
+  color: black;
+}
   .bg-image {
     
     background-image: url("../assets/backgroundImage.jpeg"); /* Chemin d'accès relatif à partir du dossier "public" */
