@@ -11,8 +11,10 @@
     <div class="alert alert-info" role="alert" v-if="alreadyLoggedMessage">{{ alreadyLoggedMessage }}</div>
     <div class="alert alert-success" role="alert" v-if="successMessage">{{ successMessage }}</div>
 
-    <div v-if="admin">
+    <div v-if="admin" class="text-center">
+      <router-link class="btn m-3 btn-primary" to="/?">Ajouter une question</router-link>
       <QuestionList />
+
     </div>
   </div>
 </template>

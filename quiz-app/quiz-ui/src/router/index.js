@@ -12,20 +12,17 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
     },
     {
       path: '/admin',
       name: 'Administration',
-
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/Admin.vue')
+    },
+    {
+      path: '/question/:id/edit',
+      name: 'QuestionEdition',
+      component: () => import('../views/QuestionEdition.vue')
     },
     {
       path: '/NewQuizPage',
@@ -34,7 +31,7 @@ const router = createRouter({
     },
     {
       path: '/QuestionManager',
-      name: 'quesQuestionManagtions',
+      name: 'QuestionManager',
       component: () => import('../views/QuestionManager.vue')
     }
   ]

@@ -49,10 +49,12 @@ def PostQuestion():
 		return "",401
 	
 	question = request.get_json()
-	
+	print(question)
 	responseInsertQuestion = insertQuestionToBDD(question)
 	responseInsertAnswer = insertPossibleAnswersToBDD(responseInsertQuestion.getId(), question['possibleAnswers'])
 	responseInsertQuestion.setPossibleAnswers(responseInsertAnswer)
+	IDs = getIdsOfPostionsToUpdate(responseInsertQuestion.getPosition(),get_table_count("question"))
+	updatePositionQuestions(IDs, responseInsertQuestion.getId(),responseInsertQuestion.getPosition(),get_table_count("question"))
 	if isinstance(responseInsertQuestion,Question):
 		my_dict = {"id":responseInsertQuestion.getId()}
 		jsondata = to_json(my_dict) 
@@ -62,6 +64,7 @@ def PostQuestion():
 @app.route('/questions/<int:question_id>', methods=['DELETE'])
 def DeleteQuestion(question_id):
 	try:
+		print(request.headers.get('Authorization').split(" ")[1])
 		decode_token(request.headers.get('Authorization').split(" ")[1])
 	except:
 		print("Unauthorized")
@@ -126,14 +129,13 @@ def UpdateQuestion(question_id):
 	#Get and create new Question (the one that will Replace)
 	try:
 		response = getColumnsFromTableByColumn("question", ['id','position', 'title', 'text', 'image'], "id", question_id)
-		response[0]
+		print(response[0])
 		newQuestionJSON = request.get_json()
 		updatedQuestion = Question(newQuestionJSON['position'],newQuestionJSON['title'],newQuestionJSON['text'],newQuestionJSON['image'])
 		newPossibleAnswers = createPossAnswers(newQuestionJSON['possibleAnswers'], question_id)
 		updatedQuestion.setPossibleAnswers(newPossibleAnswers)
 		updatedQuestion.setId(question_id)
 		IDs = getIdsOfPostionsToUpdate(newQuestionJSON['position'],response[0]['position'])
-		print(IDs)
 		updateQuestion(updatedQuestion,newQuestionJSON['possibleAnswers'])
 		updatePositionQuestions(IDs,question_id,newQuestionJSON['position'],response[0]['position'])
 		return "",204

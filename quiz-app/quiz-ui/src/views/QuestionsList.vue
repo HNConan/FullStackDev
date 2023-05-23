@@ -1,7 +1,7 @@
 <template>
   <div class="container bg-white">
-    <h1>Tableau des Questions</h1>
-    <table class="table table-striped">
+    <h1 style="color:black">Tableau des Questions</h1>
+    <table class="table table-striped text-start">
       <thead>
         <tr>
           <th scope="col">ID</th>
@@ -10,6 +10,8 @@
           <th scope="col">Texte</th>
           <th scope="col">Image</th>
           <th scope="col">Réponses</th>
+          <th scope="col">Modifier</th>
+          <th scope="col">Supprimer</th>
         </tr>
       </thead>
       <tbody>
@@ -30,6 +32,12 @@
                 <p v-if="!answer.isCorrect">{{ answer.position + 1 }} : {{ answer.text }}</p>
               </li>
             </ul>
+          </td>
+          <td>
+            <router-link :to="`/question/${question.id}/edit`" class="btn btn-primary">Modifier</router-link>
+          </td>
+          <td>
+            <button @click="deleteQuestion(question.id)" class="btn btn-danger">Supprimer</button>
           </td>
         </tr>
       </tbody>
@@ -72,7 +80,17 @@ export default {
           console.error(error);
         });
     },
+    deleteQuestion(questionId) {
+      // Envoyer une requête API pour supprimer la question avec l'ID donné
+      quizApiService.deleteQuestion(questionId)
+        .then((response) => {
+          // Supprimer la question de la liste
+          this.questions = this.questions.filter(question => question.id !== questionId);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
-
 };
 </script>
