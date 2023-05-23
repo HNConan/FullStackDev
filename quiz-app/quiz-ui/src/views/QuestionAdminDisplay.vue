@@ -36,6 +36,7 @@
     </ul>
   </div>
   <button @click="$emit('inputsOfQuest')" class="btn btn-primary mt-3">Enregistrer</button>
+  <router-link class="btn mt-3 btn-danger" to="/admin">Annuler</router-link>
 </template>
 
 <script>

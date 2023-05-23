@@ -35,6 +35,8 @@
     </div>
     <div>
       <button @click="addQuestion" class="btn btn-primary">Ajouter</button>
+      <router-link class="btn m-1 btn-danger" to="/admin">Annuler</router-link>
+
     </div>
   </div>
 </template>
