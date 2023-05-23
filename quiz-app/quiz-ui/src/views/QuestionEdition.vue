@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="admin">
     <h2>Question : {{ currentQuestionPosition }} / {{ totalNumberOfQuestion }}</h2>
     <QuestionAdminDisplay :question="currentQuestion" @inputsOfQuest="saveQuestion"
       @file-change="imageFileChangedHandler" />

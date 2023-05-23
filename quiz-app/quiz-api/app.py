@@ -64,7 +64,6 @@ def PostQuestion():
 @app.route('/questions/<int:question_id>', methods=['DELETE'])
 def DeleteQuestion(question_id):
 	try:
-		print(request.headers.get('Authorization').split(" ")[1])
 		decode_token(request.headers.get('Authorization').split(" ")[1])
 	except:
 		print("Unauthorized")

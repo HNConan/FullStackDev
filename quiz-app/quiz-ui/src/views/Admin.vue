@@ -12,8 +12,9 @@
     <div class="alert alert-success" role="alert" v-if="successMessage">{{ successMessage }}</div>
 
     <div v-if="admin" class="text-center">
-      <router-link class="btn m-3 btn-primary" to="/?">Ajouter une question</router-link>
-      <QuestionList />
+      <router-link class="btn m-3 btn-primary" :key="admin" to="/question/add">Ajouter une question</router-link>
+      <button @click="deleteAllQuestion()" class="btn btn-danger">Supprimer toutes les questions</button>
+      <QuestionList :key="shouldUpdateQuestionList, admin" />
 
     </div>
   </div>
@@ -35,7 +36,8 @@ export default {
       errorMessage: '',
       alreadyLogged: '',
       successMessage: '',
-      admin: false
+      admin: false,
+      shouldUpdateQuestionList: false,
     };
   },
   created() {
@@ -72,6 +74,18 @@ export default {
     },
     async storeTokenAdmin(token) {
       adminStorageService.saveTokenAdmin(token)
+    },
+    deleteAllQuestion() {
+      // Envoyer une requête API pour supprimer la question avec l'ID donné
+      quizApiService.deleteAllQuestions()
+        .then((response) => {
+          // Supprimer la question de la liste
+          this.shouldUpdateQuestionList = true;
+          console.log("Toutes les questions ont été supprimées")
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
   },
 };

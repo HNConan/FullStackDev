@@ -14,8 +14,6 @@ export default {
       headers.Authorization = "Bearer " + token;
     }
 
-    console.log(headers);
-
     return instance({
       method,
       headers: headers,

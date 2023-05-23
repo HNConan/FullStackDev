@@ -5,8 +5,8 @@
   </div>
   <div class="input-group mb-3">
     <label class="input-group-text" for="questionPosition">Position :</label>
-    <input v-model.number="question.position" type="number" class="form-control" id="questionPosition"
-      name="questionPosition">
+    <input v-model.number="question.position" type="number" min="1" :max="(this.totalNumberOfQuest + 1).toString()"
+      class="form-control" id="questionPosition" name="questionPosition">
   </div>
   <div class="input-group mb-3">
     <label class="input-group-text" for="questionText">Texte :</label>
@@ -40,6 +40,8 @@
 
 <script>
 import ImageUpload from "@/views/ImageUpload.vue";
+import quizApiService from "@/services/QuizApiService";
+
 export default {
   name: 'QuestionAdminDisplay',
   emits: ['inputsOfQuest'],
@@ -49,7 +51,26 @@ export default {
       required: true,
     },
   },
+  created() {
+    this.getNumberOfQuest();
+  },
+  computed: {
+    maxQuestionPosition() {
+      return this.totalNumberOfQuest + 1;
+    },
+  },
+
   methods: {
+    async getNumberOfQuest() {
+      quizApiService.getQuizInfo()
+        .then((response) => {
+          this.totalNumberOfQuest = response.data['size'];
+
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     imageFileChangedHandler(b64String) {
       this.$emit('file-change', b64String);
     },

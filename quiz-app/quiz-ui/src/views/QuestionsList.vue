@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-white">
+  <div class="container bg-white" v-if="admin">
     <h1 style="color:black">Tableau des Questions</h1>
     <table class="table table-striped text-start">
       <thead>
@@ -34,7 +34,7 @@
             </ul>
           </td>
           <td>
-            <router-link :to="`/question/${question.id}/edit`" class="btn btn-primary">Modifier</router-link>
+            <router-link :to="`/question/${question.id}/edit`" :key="admin" class="btn btn-primary">Modifier</router-link>
           </td>
           <td>
             <button @click="deleteQuestion(question.id)" class="btn btn-danger">Supprimer</button>
@@ -50,6 +50,16 @@ import quizApiService from "@/services/QuizApiService";
 
 export default {
   name: 'QuestionTable',
+  computed: {
+    updatedQuestionList() {
+      // Cette propriété calculée met à jour la liste des questions lorsque shouldUpdateQuestionList est vrai
+      if (this.shouldUpdateQuestionList) {
+        this.getQuestions();
+        this.shouldUpdateQuestionList = false; // Réinitialise la valeur pour éviter des mises à jour inutiles
+      }
+      return this.questions;
+    },
+  },
   data() {
     return {
       questions: [],
@@ -85,7 +95,9 @@ export default {
       quizApiService.deleteQuestion(questionId)
         .then((response) => {
           // Supprimer la question de la liste
-          this.questions = this.questions.filter(question => question.id !== questionId);
+          //this.questions = this.questions.filter(question => question.id !== questionId);
+          this.questions = [];
+          this.getQuestions();
         })
         .catch((error) => {
           console.error(error);
