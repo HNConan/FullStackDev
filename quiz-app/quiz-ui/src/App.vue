@@ -11,7 +11,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/about">About</RouterLink>
       <RouterLink to="/admin">Administration</RouterLink>
-
+      <RouterLink to="/Leaderboard">Leaderboard</RouterLink>
     </nav>
   </div>
   <RouterView />
@@ -53,7 +53,7 @@ nav a:first-of-type {
 
 .wrapper {
   place-items: bottom;
-
+  white-space: nowrap;
 }
 
 @media (min-width: 1024px) {
