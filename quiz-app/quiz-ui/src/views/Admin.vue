@@ -14,7 +14,7 @@
     <div v-if="admin" class="text-center">
       <router-link class="btn m-3 btn-primary" :key="admin" to="/question/add">Ajouter une question</router-link>
       <button @click="deleteAllQuestion()" class="btn btn-danger">Supprimer toutes les questions</button>
-      <QuestionList :key="shouldUpdateQuestionList, admin" />
+      <QuestionList :key="[shouldUpdateQuestionList, admin]" />
 
     </div>
   </div>
