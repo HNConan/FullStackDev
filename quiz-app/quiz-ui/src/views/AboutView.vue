@@ -14,7 +14,8 @@
     align-items: center; 
      display: center;
      height: 100px;
-     text-align: center; 
+     text-align: center;
+     color: black; 
 
   }
   
