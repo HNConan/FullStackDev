@@ -1,8 +1,9 @@
 <template>
   <div class="about">
     <h1>Projet FullStack ESIEE 2023</h1>
+    <h4> Réalisé par COMPAGNON Paul, CONAN Hadrien,BERTHELIN Joe  </h4>
+
   </div>
-  <h4> Réalisé par COMPAGNON Paul, CONAN Hadrien,BERTHELIN Joe  </h4>
   <div class="container-fluid bg-image" ></div>
 
 </template>
