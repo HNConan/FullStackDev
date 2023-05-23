@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import adminStorageService from "@/services/AdminStorageService";
 import quizApiService from "@/services/QuizApiService";
 import QuestionAdminDisplay from "@/views/QuestionAdminDisplay.vue";
 
@@ -35,6 +36,11 @@ export default {
     };
   },
   created() {
+    if (adminStorageService.getTokenAdmin() != null) {
+      this.admin = true;
+    } else {
+      this.admin = false;
+    }
     const questionID = this.$route.params.id;
     this.loadQuestionByPosition(questionID);
     quizApiService.getQuizInfo()

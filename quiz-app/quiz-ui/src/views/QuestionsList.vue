@@ -47,6 +47,7 @@
 
 <script>
 import quizApiService from "@/services/QuizApiService";
+import adminStorageService from "@/services/AdminStorageService";
 
 export default {
   name: 'QuestionTable',
@@ -67,6 +68,12 @@ export default {
   },
   created() {
     this.getQuestions();
+    if (adminStorageService.getTokenAdmin() != null) {
+      this.admin = true;
+    } else {
+      this.admin = false;
+    }
+
   },
   methods: {
     getQuestions() {
