@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-if="admin">
+  <div class="container" v-if="this.admin">
     <h2 style="color: white;"><u>Ajouter une nouvelle question</u></h2>
     <div class="input-group mb-3">
       <label class="input-group-text" for="newQuestionTitle">Titre :</label>
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import adminStorageService from "@/services/AdminStorageService";
 import quizApiService from "@/services/QuizApiService";
 import ImageUpload from "@/views/ImageUpload.vue";
 
@@ -50,6 +51,11 @@ export default {
   },
   created() {
     this.getNumberOfQuest();
+    if (adminStorageService.getTokenAdmin() != null) {
+      this.admin = true;
+    } else {
+      this.admin = false;
+    }
   },
   data() {
 
