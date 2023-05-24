@@ -65,6 +65,7 @@ export default {
     async saveQuestion() {
       try {
         await quizApiService.updateQuestion(this.currentQuestionID, this.currentQuestion);
+        this.$router.push("/admin");
       } catch (error) {
         console.error(error);
       }

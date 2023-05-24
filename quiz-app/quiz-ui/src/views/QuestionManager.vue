@@ -1,9 +1,46 @@
 <template>
-  <div>
-    <h2>Question : {{ currentQuestionPosition }} / {{ totalNumberOfQuestion }}</h2>
-    <QuestionDisplay :question="currentQuestion" @answer-selected="answerClickedHandler" />
+  <div class="container-fluid bg-image"></div>
+
+  <div class="bg-success text-dark p-5 m-5 bigDiv border-warning ">
+    <h2>
+      <span class="bg-warning p-2 currQuest"><b><u>Question :</u> {{ currentQuestionPosition }} / {{ totalNumberOfQuestion
+      }}</b></span>
+    </h2>
+    <h3 class="mt-3 ms-1">Sélectionner la bonne réponse :</h3>
+    <div class="QuestionPart p-1 m-5">
+      <QuestionDisplay :question="currentQuestion" @answer-selected="answerClickedHandler" />
+    </div>
   </div>
 </template>
+<style>
+.QuestionPart {
+  background-color: rgba(0, 0, 0, 0.103);
+  border-radius: 2rem;
+}
+
+.currQuest {
+  border-radius: 1rem;
+}
+
+.bigDiv {
+  border: 1rem solid white;
+  border-radius: 3rem;
+}
+
+.bg-image {
+
+  background-image: url("../assets/backgroundImage.jpeg");
+  /* Chemin d'accès relatif à partir du dossier "public" */
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+</style>
   
 <script>
 import QuestionDisplay from "@/views/QuestionDisplay.vue";

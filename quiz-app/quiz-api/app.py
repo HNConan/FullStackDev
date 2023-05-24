@@ -106,7 +106,7 @@ def GetQuestionsInfoById(question_id):
 
 
 @app.route('/questions', methods=['GET'])
-def GetQuestionsInfo():
+def GetQuestionsInfo():	
 	position = request.args.get('position')
 	try:
 		responseSelectQuestion = getColumnsFromTableByColumn("question", ['id','position', 'title', 'text', 'image'], "position", position)
@@ -159,7 +159,7 @@ def PostParticipants():
 		jsonInput = request.get_json()
 		number_of_answer = len(jsonInput['answers'])
 		if get_table_count("question") != number_of_answer:
-			return "",400
+			return "You missed questions !",400
 		partipationObj = postParticipation(jsonInput)
 		return str(partipationObj),200
 	except:

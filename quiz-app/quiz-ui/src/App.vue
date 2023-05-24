@@ -4,75 +4,56 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <div class="wrapper">
-    <HelloWorld msg="You did it!" />
-
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-      <RouterLink to="/admin">Administration</RouterLink>
-      <RouterLink to="/Leaderboard">Leaderboard</RouterLink>
+  <header>
+    <nav class="navbar navbar-dark sticky-top bg-success">
+      <div class="container-fluid">
+        <RouterLink class="nav-link links-menu" to="/">Accueil</RouterLink>
+        <RouterLink class="nav-link links-menu" to="/Leaderboard">Leaderboard</RouterLink>
+        <RouterLink class="nav-link links-menu" to="/about">About</RouterLink>
+        <RouterLink class="nav-link links-menu" to="/admin">Administration</RouterLink>
+      </div>
     </nav>
-  </div>
-  <RouterView />
+  </header>
+  <main class="h-100">
+    <div class="container mt-3 justify-content-center">
+      <RouterView />
+    </div>
+  </main>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+nav {
+  font-size: 1.2rem;
+  padding: 1.5rem;
 }
 
-
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-  display: bottom;
+.links-menu {
+  color: white;
 }
 
 nav a.router-link-exact-active {
-  color: var(--color-text);
+  color: rgb(0, 0, 0);
+  background-color: white;
+}
+
+a:hover {
+  background-color: white !important;
+  color: black;
+
 }
 
 nav a.router-link-exact-active:hover {
-  background-color: transparent;
+  background-color: white !important;
 }
 
 nav a {
   display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+  padding: 0.1 2rem;
+  border-radius: 1rem;
+  text-decoration: none;
 }
 
 nav a:first-of-type {
   border: 0;
 }
-
-.wrapper {
-  place-items: bottom;
-  white-space: nowrap;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-
-
-
-
-  nav {
-    text-align: bottom;
-    margin-left: -1rem;
-    font-size: 1rem;
-    display: bottom;
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}</style>
+</style>
