@@ -24,6 +24,11 @@
   border-radius: 1rem;
 }
 
+.btn-answer {
+  font-size: 1.5rem;
+
+}
+
 .btn-answer:hover {
   background-color: rgba(10, 161, 10, 0.521);
   border-color: rgba(10, 161, 10, 0.521);
