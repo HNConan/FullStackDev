@@ -110,8 +110,7 @@ export default {
         .then((response) => {
           participationStorageService.savePlayerName(response.data['playerName']);
           participationStorageService.saveParticipationScore(response.data['score']);
-          participationStorageService.clear();
-          this.$router.push('./');
+          this.$router.push('./Leaderboard');
         })
         .catch((error) => {
           console.error(error);

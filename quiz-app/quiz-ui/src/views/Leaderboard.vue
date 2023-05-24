@@ -4,6 +4,12 @@
       <h1 class="titleBox"><u><b>Leaderboard :</b></u></h1>
       <h4 class="titleBox">Classement des participations</h4>
     </div>
+    <div class="titleBox  m-4" v-if="this.playerScore != null">
+      <h3>
+        <span class="bg-success score text-white p-3"><b><u>Votre score :</u> {{ this.playerScore
+        }}</b></span>
+      </h3>
+    </div>
 
     <div class="container-fluid bg-image"></div>
     <div class="ScoreArray">
@@ -30,6 +36,10 @@
 </template>
   
 <style>
+.score {
+  border-radius: 1rem;
+}
+
 .title {
   justify-content: top;
   align-items: center;
@@ -86,6 +96,8 @@
   
 <script>
 import quizApiService from "@/services/QuizApiService";
+import participationApiService from "@/services/ParticipationStorageService";
+
 import { registerRuntimeCompiler } from "vue";
 let registeredScores = [];
 export default {
@@ -98,6 +110,9 @@ export default {
   },
   async created() {
     console.log("Test get all scores");
+    this.playerName = participationApiService.getPlayerName();
+    this.playerScore = participationApiService.getParticipationScore();
+    console.log(this.playerScore);
     quizApiService.getQuizInfo()
       .then((response) => {
         this.registeredScores = response.data;

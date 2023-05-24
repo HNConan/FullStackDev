@@ -35,7 +35,7 @@
 
 
   <div class="BeginQuizz">
-    <router-link class="goToNewQuizz btn btn-lg btn-success mt-2" to="/NewQuizPage"><b>Démarrer le quiz
+    <router-link class="goToNewQuizz btn btn-lg btn-success mt-2" to="/NewQuizPage"><b>Démarrer le Quizz
         !</b></router-link>
   </div>
 </template>
@@ -133,6 +133,7 @@ th {
 
 <script>
 import quizApiService from "@/services/QuizApiService";
+
 import { registerRuntimeCompiler } from "vue";
 let registeredScores = [];
 export default {

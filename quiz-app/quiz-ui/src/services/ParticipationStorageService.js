@@ -15,7 +15,7 @@ export default {
     return JSON.parse(window.localStorage.getItem("playerAnswers")) || [];
   },
   saveParticipationScore(participationScore) {
-    window.localStorage.setItem("playerName", participationScore);
+    window.localStorage.setItem("participationScore", participationScore);
   },
   getParticipationScore() {
     return window.localStorage.getItem("participationScore");
