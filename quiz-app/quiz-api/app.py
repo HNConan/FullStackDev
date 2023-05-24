@@ -24,6 +24,7 @@ def GetQuizInfo():
 
 @app.route('/rebuild-db', methods=['POST'])
 def rebuildDB():
+	createDB()
 	return 'Ok', 200
 
 

@@ -3,6 +3,44 @@ from appClasses import *
 
 #Questions Methods
 
+def createDB():
+    # Connexion à la base de données
+    conn = sqlite3.connect('bdd.db')
+    c = conn.cursor()
+
+    c.execute('DROP TABLE IF EXISTS question')
+    c.execute('DROP TABLE IF EXISTS participants')
+    c.execute('DROP TABLE IF EXISTS poss_answers')
+
+
+    # Création de la table "question"
+    c.execute('''CREATE TABLE IF NOT EXISTS question
+                 (id INTEGER PRIMARY KEY,
+                 position INTEGER,
+                 title TEXT,
+                 text TEXT,
+                 image NUMERIC)''')
+
+    # Création de la table "participants"
+    c.execute('''CREATE TABLE IF NOT EXISTS participants
+                 (id INTEGER PRIMARY KEY,
+                 pseudo TEXT,
+                 score INTEGER,
+                 answers TEXT)''')
+
+    # Création de la table "poss_answers"
+    c.execute('''CREATE TABLE IF NOT EXISTS poss_answers
+                 (id INTEGER PRIMARY KEY,
+                 id_quest INTEGER,
+                 text TEXT,
+                 isCorrect INTEGER,
+                 position INTEGER)''')
+
+    # Fermeture de la connexion à la base de données
+    conn.close()
+
+
+
 def get_table_count(tableName):
     conn = sqlite3.connect('bdd.db')
     cur = conn.cursor()
