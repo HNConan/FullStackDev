@@ -36,7 +36,7 @@ export default {
     }
   },
   async created() {
-    participationApiService.clear();
+    participationStorageService.clear();
 
     import('@/assets/backgroundImage.jpeg')
       .then((image) => {
